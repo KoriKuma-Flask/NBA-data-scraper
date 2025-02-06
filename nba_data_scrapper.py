@@ -166,10 +166,4 @@ def get_day_match_data(yesterday_str =None):
 
 
 if __name__ == "__main__":
-    get_day_match_data('2025-01-29')
-    schedule.every().day.at("00:00").do(get_day_match_data)
-
-    while True:
-        schedule.run_pending()
-        print("Waiting for the next scheduled task...")
-        time.sleep(10)
+    get_day_match_data()
