@@ -1,4 +1,5 @@
 import json
+import os
 from bs4 import BeautifulSoup
 import requests
 import csv
@@ -134,9 +135,9 @@ def get_players():
         # Check the response
         print("Status Code:", response.status_code)
         
-        # if response.status_code == 200:
-        #     os.remove(f'match_data{yesterday_str}.csv')
-        #     print("File successfully sent and deleted.")
+
+        os.remove(f'players_data.csv')
+        print("File successfully sent and deleted.")
     except Exception as e:
         print("An error occurred:", e)
         
@@ -157,10 +158,9 @@ def get_day_match_data(yesterday_str =None):
         # Check the response
         print("Status Code:", response.status_code)
         print("Response:", response.text)
-        
-        # if response.status_code == 200:
-        #     os.remove(f'match_data{yesterday_str}.csv')
-        #     print("File successfully sent and deleted.")
+
+        os.remove(f'match_data{yesterday_str}.csv')
+        print("File successfully sent and deleted.")
     except Exception as e:
         print("An error occurred:", e)
 
