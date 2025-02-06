@@ -224,4 +224,5 @@ if __name__ == "__main__":
 
     while True:
         schedule.run_pending()
-        time.sleep(1)
+        print("Waiting for the next scheduled task...")
+        time.sleep(10)
