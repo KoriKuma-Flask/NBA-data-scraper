@@ -1,20 +1,6 @@
 import requests
 import json
-import cloudscraper
-from requests_html import HTMLSession
-session = HTMLSession()
 
-
-scraper = cloudscraper.create_scraper()  # Cloudflare-aware session
-import time
-
-import requests
-
-
-
-import requests
-
-session = requests.Session()
 
 # Authentication endpoint
 AUTH_URL = "https://stake.com/auth"
