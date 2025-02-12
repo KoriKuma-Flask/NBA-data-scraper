@@ -4,7 +4,7 @@
 
 # Debian/Ubuntu example (most common):
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb  # Or latest .deb
-sudo apt install ./google-chrome-stable_current_amd64.deb
+apt install ./google-chrome-stable_current_amd64.deb
 rm google-chrome-stable_current_amd64.deb # Clean up the .deb file
 
 
