@@ -1,18 +1,32 @@
+echo "Build complete." 
+
 #!/bin/bash
 
-# Install Chrome (adjust for your Linux distribution)
+set -e  # Exit immediately if a command exits with a non-zero status
 
-# Debian/Ubuntu example (most common):
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb  # Or latest .deb
-apt install ./google-chrome-stable_current_amd64.deb
-rm google-chrome-stable_current_amd64.deb # Clean up the .deb file
+echo "🔹 Updating system and installing dependencies..."
+sudo apt-get update && sudo apt-get install -y \
+    wget \
+    gnupg \
+    xvfb \
+    python3-tk \
+    python3-dev
 
 
-# Install Python dependencies
-pip install -r requirements.txt
+Xvfb :99 -screen 0 1920x1080x24 &
+echo "Dependencies installed."
 
-# (Optional) Run your tests or other build commands here:
-# sbase test my_test.py  # Example SeleniumBase test
-# python your_script.py # Example run script
+echo "🔹 Installing Google Chrome..."
+wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt-get update
+sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
+rm google-chrome-stable_current_amd64.deb
 
-echo "Build complete."
+
+
+echo "🔹 Setting up Python environment"
+pip install --no-cache-dir -r requirements.txt
+
+
+
+echo "Setup complete!"
