@@ -317,7 +317,7 @@ def get_match_player_points(fixture,fixtureId):
             "headers": dict(response.headers),
             "body": response.json()
         }
-        # response = response.json()
+        response = response.json()
         # with open('/home/tk-lpt-0809/Documents/NBA-data-scraper-scrapper_init/python_scripts/response_data.json', 'w') as f:
         #   json.dump(response_data, f, indent=4)
         # with open('/home/tk-lpt-0809/Documents/NBA-data-scraper-scrapper_init/python_scripts/match_player_points.json', 'w') as f:
