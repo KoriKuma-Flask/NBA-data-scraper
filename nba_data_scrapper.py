@@ -4,8 +4,6 @@ from bs4 import BeautifulSoup
 import requests
 import csv
 from datetime import datetime, timedelta, timezone
-import schedule
-import time
 
 
 
@@ -152,15 +150,13 @@ def get_day_match_data(yesterday_str =None):
     # Close the driver
     post_url = 'https://sportsdataapi-frankfurt-region.onrender.com/nba-data/players/match-stats'
     try:
-        with open(f'match_data{yesterday_str}.csv', 'rb') as f:
-            response = requests.post(post_url, files={'file': f})
-            
-        # Check the response
-        print("Status Code:", response.status_code)
-        print("Response:", response.text)
-
-        os.remove(f'match_data{yesterday_str}.csv')
-        print("File successfully sent and deleted.")
+        if os.path.exists(f'match_data{yesterday_str}.csv'):
+            with open(f'match_data{yesterday_str}.csv', 'rb') as f:
+                response = requests.post(post_url, files={'file': f})
+            print("Status Code:", response.status_code)
+            print("Response:", response.text)
+            os.remove(f'match_data{yesterday_str}.csv')
+            print("File successfully sent and deleted.")
     except Exception as e:
         print("An error occurred:", e)
 
