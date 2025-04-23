@@ -46,7 +46,7 @@ def get_matchs_data(from_date,to_date):
     current_from_date_str = from_date
     to_date_str = to_date
     to_date = datetime.strptime(to_date, '%Y-%m-%d')
-    from_date = datetime.strptime(from_date, '%Y-%m-%d')
+    from_date = datetime.strptime(from_date, '%Y-%m-%d') + timedelta(hours=23, minutes=59)
     #Tue, Oct 10, 2023 – Mon, Jun 24, 2024
     print(from_date)
     match_data = [] 
@@ -64,16 +64,13 @@ def get_matchs_data(from_date,to_date):
 
         #print(matches_data)
         for games in matches_data['gameWeek']:
-            print("gameWeek")
             #print(games['name']['default'])
             # print(games['games'][0])
             if time_to_break:
                 break
 
             for match_day in games['games']:
-                print(match_day['id'])
                 match_start_time = datetime.strptime(match_day['startTimeUTC'], '%Y-%m-%dT%H:%M:%SZ')
-                
                 # print(match_start_time)
                 # print(to_date_dt)
                 
@@ -81,6 +78,7 @@ def get_matchs_data(from_date,to_date):
                     time_to_break = True
                     print(match_start_time > to_date)
                     break
+                print(match_day['id'])
                 
                 current_match_data = {
                     'id': match_day['id'],
@@ -184,6 +182,7 @@ def get_teams(from_date,to_date):
                 match_data.append(games)
                 already_teams_entered.append(games['id'])
             #from_date = from_date + timedelta(days=7)
+            print(match_data['nextStartDate'])
             current_from_date_str = matches_data['nextStartDate']
             from_date = datetime.strptime(current_from_date_str, '%Y-%m-%d')
         
@@ -248,7 +247,9 @@ def get_match_data(date):
             # print(match)
             match['box_score_page_data'] = get_match_player_data("https://www.nba.com/" + match['box_score_link'])
             print("have match data")
-            matches.append(match)
+         
+         
+
         except Exception as e:
             print(f"not data for {card['cardData']['gameId']}",)
             print(f"An error occurred while processing match data: {e}")
@@ -333,7 +334,7 @@ def main():
     #get_teams('2023-10-10', '2024-06-24')
     #get_matchs_data('2024-10-04', '2024-10-14')
     #get_matchs_data('2025-04-04', '2025-04-12')
-    yesterday = datetime.now(timezone.utc) - timedelta(days=1)
+    yesterday = datetime.now(timezone.utc) - timedelta(days=2)
     
     yesterday_str = yesterday.strftime("%Y-%m-%d") #"2025-01-29"
     get_matchs_data(yesterday_str, datetime.now(timezone.utc).strftime("%Y-%m-%d"))
