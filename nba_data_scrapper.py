@@ -125,7 +125,7 @@ def get_players():
         
         for player in players_data:
             writer.writerow([json.dumps(player)])
-    post_url = 'https://sportsdataapi-frankfurt-region.onrender.com/nba-data/players/dump'
+    post_url = 'https://sportsdataapi-5l8y.onrender.com/nba-data/players/dump'
     try:
         with open(f'players_data.csv', 'rb') as f:
             response = requests.post(post_url, files={'file': f})
@@ -148,7 +148,7 @@ def get_day_match_data(yesterday_str =None):
     get_players()
     get_match_data( yesterday_str)
     # Close the driver
-    post_url = 'https://sportsdataapi-frankfurt-region.onrender.com/nba-data/players/match-stats'
+    post_url = 'https://sportsdataapi-5l8y.onrender.com/nba-data/players/match-stats'
     try:
         if os.path.exists(f'match_data{yesterday_str}.csv'):
             with open(f'match_data{yesterday_str}.csv', 'rb') as f:

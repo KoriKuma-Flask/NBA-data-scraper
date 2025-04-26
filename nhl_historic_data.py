@@ -9,7 +9,8 @@ from datetime import datetime, timedelta, timezone
 class ServerEnvironment(Enum):
   LOCAL = {"name": "local", "url": "http://127.0.0.1:3000"}
   TEST = {"name": "test", "url": "https://sportsdataapi.onrender.com"}
-  PRODUCTION = {"name": "production", "url": "https://sportsdataapi-frankfurt-region.onrender.com"}
+  PRODUCTION_TEST = {"name": "production_test", "url": "https://sportsdataapi-frankfurt-region.onrender.com"}
+  PRODUCTION = {"name": "production", "url": "https://sportsdataapi-5l8y.onrender.com"}
 
 
 def path(file_name):
