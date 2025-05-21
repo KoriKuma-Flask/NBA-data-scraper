@@ -102,6 +102,7 @@ def get_games_until_date(schedule, param_date_str):
 
 def get_historical_data(date):
     # date is in format 'YYYY-MM-DD'
+    print(f'getting data for {date}')
     year, month, day = date.split('-')
     month_name = calendar.month_name[int(month)].lower()
     url = f'https://stats.wnba.com/stats/scheduleleaguev2?LeagueID=10&Season={year}&month={month_name}'
@@ -157,6 +158,7 @@ def get_historical_data(date):
         print("An error occurred:", e)
 
 def get_players():
+    print('posting players')
     url = "https://www.wnba.com/players?team=all&position=all&show-historic-players=false"  # Replace with your actual endpoint
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -218,15 +220,10 @@ def get_players():
             
         # Check the response
         print("Status Code:", response.status_code)
-        
-
         os.remove('wnba_players_data.csv')
-        # print("File successfully sent and deleted.")
+        print("File successfully sent and deleted.")
     except Exception as e:
         print("An error occurred:", e)
-
-
-
 
 class ServerEnvironment(Enum):
   LOCAL = {"name": "local", "url": "http://127.0.0.1:3000"}
@@ -235,22 +232,8 @@ class ServerEnvironment(Enum):
   PRODUCTION = {"name": "production", "url": "https://sportsdataapi-5l8y.onrender.com"}
 
 global server_env
-server_env = ServerEnvironment.LOCAL
-
+server_env = ServerEnvironment.PRODUCTION
 today = datetime.now()
 start_date = (today - timedelta(days=1)).strftime("%Y-%m-%d")
-get_historical_data(start_range.strftime("%Y-%m-%d"))
-# Run from 1 May 2025 to today
-start_range = datetime(2025, 5,1)
-end_range = datetime(2025, 5,19)
-
-
-
-
-current_date = start_range
-while current_date <= end_range:
-    print(f"Processing date: {current_date.strftime('%Y-%m-%d')}")
-    get_historical_data(current_date.strftime("%Y-%m-%d"))
-    current_date += timedelta(days=1)
-
-# print(get_teams())
+get_players()
+get_historical_data(start_date)
