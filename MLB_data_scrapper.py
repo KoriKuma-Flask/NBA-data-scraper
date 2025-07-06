@@ -186,6 +186,7 @@ def fetch_live_game_feed(game_id):
 
 
 def players():
+    print("Getting players data...")
     current_year = datetime.now().year
     current_month = datetime.now().month
     print("Key: \".\" = getting player data, \"+\" = got player data")
@@ -230,7 +231,8 @@ def players():
                 for thread in threads:
                     thread.join()
                 threads = []
-
+        print(end="\n")
+        print("Waiting for threads to complete...")
         for thread in threads:
             thread.join()
 
@@ -339,7 +341,7 @@ def get_match_data(start_date=None, end_date=None):
                     response = requests.post(post_url, files={'file': f})
                 print("Status Code:", response.status_code)
                 print("Response:", response.text)
-                os.remove(f'mlb_match_data_{start_date}_to_{end_date}.csv')
+                os.remove(path(file_name))
                 print("File successfully sent and deleted.")
         except Exception as e:
             print("An error occurred:", e)
@@ -373,11 +375,12 @@ def main():
     today = datetime.now()
     start_date = (today - timedelta(days=1)).strftime("%Y-%m-%d")
     end_date = today.strftime("%Y-%m-%d")
+    players()
     get_match_data(start_date, start_date)
     # start_date = "2025-03-18" 
     # start_date = "2025-04-17"
     # end_date = "2025-05-15" 
-    players()
+
     # Call get_match_data for each 10-day interval between start_date and end_date
     # current_start = datetime.strptime(start_date, "%Y-%m-%d")
     # final_end = datetime.strptime(end_date, "%Y-%m-%d")
