@@ -188,7 +188,7 @@ def fetch_live_game_feed(game_id):
 def players():
     current_year = datetime.now().year
     current_month = datetime.now().month
-
+    print("Key: \".\" = getting player data, \"+\" = got player data")
     # MLB season typically starts in April and ends in October
     if current_month >= 4:
         season = current_year
@@ -200,17 +200,19 @@ def players():
         
         def process_player(player, players_data):
             time.sleep(random.uniform(0, 4))
-            print(f"Processing player: {player.get('fullName', 'Unknown')}")
+            #print(f"Processing player: {player.get('fullName', 'Unknown')}")
             player_id = None
             name_slug = player.get("nameSlug")
             if name_slug:
                 player_id = name_slug.split("-")[-1]
             if player_id:
-                print(f"Fetching data for player ID: {player_id}")
+                #print(f"Fetching data for player ID: {player_id}")
+                print(".", end="", flush=True)
                 player_data = fetch_player_data(player_id)
             if player_data:
-                print(f"Fetched data for player ID: {player_id}")
+                #print(f"Fetched data for player ID: {player_id}")
                 players_data.append(player_data['people'][0])
+            print("+", end="", flush=True)
 
         threads = []
         players_data = []
@@ -222,6 +224,7 @@ def players():
 
             # Wait for threads to complete after every 100 threads
             if len(threads) % 100 == 0:
+                print(end="\n")
                 print("Waiting for threads to complete...")
                 time.sleep(random.uniform(3, 8))
                 for thread in threads:
@@ -231,7 +234,7 @@ def players():
         for thread in threads:
             thread.join()
 
-
+    print("\nAll threads completed.")
     with open(path('mlb_players_data.csv'), mode='w', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         # Write headers
@@ -271,13 +274,13 @@ def players():
     except Exception as e:
         print("An error occurred:", e)
     finally:
-        #os.remove(path('mlb_players_data.csv'))
+        os.remove(path('mlb_players_data.csv'))
         print("File successfully sent and deleted.")
 
 
-        with open(path("players_detailed_data.json"), "w") as file:
-            json.dump(players_data, file, indent=4)
-        print("Detailed player data saved to players_detailed_data.json")
+        # with open(path("players_detailed_data.json"), "w") as file:
+        #     json.dump(players_data, file, indent=4)
+        # print("Detailed player data saved to players_detailed_data.json")
 
 def get_match_data(start_date=None, end_date=None):
     print("Fetching match data...")
