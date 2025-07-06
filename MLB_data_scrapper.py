@@ -237,8 +237,30 @@ def players():
         # Write headers
         writer.writerow(['DATA'])
         
-        for player in players_data:
-            writer.writerow([json.dumps(player)])
+        for data in players_data:
+            output = {
+            "source_player_id": data.get("id"),
+            "first_name": data.get("firstName"),
+            "last_name": data.get("lastName"),
+            "full_name": data.get("fullName"),
+            "player_slug": data.get("nameSlug"),
+            "source_team_id": data.get("currentTeam", {}).get("id"),
+            "team_name": data.get("currentTeam", {}).get("name"),
+            "team_slug": data.get("currentTeam", {}).get("fileCode"),
+            "team_city": data.get("currentTeam", {}).get("locationName"),
+            "team_abbreviation": data.get("currentTeam", {}).get("abbreviation"),
+            "jersey_number": data.get("primaryNumber"),
+            "position": data.get("primaryPosition", {}).get("abbreviation"),
+            "position_name": data.get("primaryPosition", {}).get("name"),
+            "position_code": data.get("primaryPosition", {}).get("code"),
+            "height": data.get("height"),
+            "weight": data.get("weight"),
+            "college": None,  # Not present in data
+            "country": data.get("birthCountry"),
+            "date_of_birth": data.get("birthDate"),
+            "active":  data.get("active")
+            }
+            writer.writerow([json.dumps(output)])
     post_url =  server_env.value['url'] + '/mlb-data/players/dump'
     try:
         with open(path('mlb_players_data.csv'), 'rb') as f:
@@ -352,7 +374,7 @@ def main():
     # start_date = "2025-03-18" 
     # start_date = "2025-04-17"
     # end_date = "2025-05-15" 
-    #players()
+    players()
     # Call get_match_data for each 10-day interval between start_date and end_date
     # current_start = datetime.strptime(start_date, "%Y-%m-%d")
     # final_end = datetime.strptime(end_date, "%Y-%m-%d")
